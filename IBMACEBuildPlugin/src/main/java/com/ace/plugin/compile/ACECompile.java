@@ -36,7 +36,7 @@ import java.io.IOException;
  * Goal which creates bar.
  *
  * 
- * @phase process-sources
+ * @phase compile
  */
 
 @Mojo (name = "createbar", defaultPhase = LifecyclePhase.COMPILE)
