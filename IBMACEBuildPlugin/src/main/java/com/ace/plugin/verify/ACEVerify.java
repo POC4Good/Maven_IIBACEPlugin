@@ -33,7 +33,7 @@ import java.io.IOException;
 
 
 /**
- * Goal which touches a timestamp file.
+ * Goal which applybaroverride.
  *
  * 
  * @phase verify
@@ -52,16 +52,23 @@ public class ACEVerify extends AbstractMojo
    public void execute() throws MojoExecutionException
     {
 	ACEDeploy  aceDeploy=new ACEDeploy();
+	try{
 	System.out.println("Bar override started...");
-	
+	String stmt="mqsiapplybaroverride -b "+ barFile ;
 	if(propertyFile!=null)
-		 Process procExec=Runtime.getRuntime().exec("mqsiapplybaroverride -b "+ barFile + " -p "+propertyFile + " -r");
+	{
+		stmt=stmt + " -p "+propertyFile + " -r";
+	}
+		 Process procExec=Runtime.getRuntime().exec(stmt);
 	
 	 while(procExec.isAlive()){}
 	
 	}catch(Exception e)
 	{
 		throw new MojoExecutionException("Exception :"+ e);
+	}
+	finally{
+		aceDeploy=null;
 	}
    }
    
