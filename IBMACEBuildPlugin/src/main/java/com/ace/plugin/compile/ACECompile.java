@@ -33,7 +33,7 @@ import java.io.IOException;
 
 
 /**
- * Goal which touches a timestamp file.
+ * Goal which creates bar.
  *
  * 
  * @phase process-sources
@@ -51,40 +51,26 @@ public class ACECompile
     @Parameter (required = true)
     private String workspace;
     
-    @Parameter (required = true)
+    @Parameter
     private String barPath;
+    
+    @Parameter
+    private String compileOnly;
+    
+    @Parameter
+    private String deployAsSource;
 
     @Parameter
     private String appName;
 
     @Parameter
     private String libName;
-
-    /* public String configValue(String processType,String osType) throws  MojoExecutionException
-    {
-    	       Properties prop = new Properties();
-		String propFileName = "script_dir.properties";
-             try{
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-		if (inputStream != null) {
-			prop.load(inputStream);
-		} else {
-			throw new MojoExecutionException("property file '" + propFileName + "' not found in the classpath");
-		}
-
-	   // String type=processType+"_"+osType;
-
-		// get the property value and print it out
-		String path = prop.getProperty(type);
-		return path;
-             }
-             catch(Exception e)
-             {
-                throw new MojoExecutionException("Exception", e);
-             }
-    }
-*/
+    
+    @Parameter
+    private String skipError;
+    
+    @Parameter
+    private String traceFilePath;
 
     public void execute()
         throws MojoExecutionException
@@ -92,51 +78,47 @@ public class ACECompile
     	ACECompile cMaven=new ACECompile();
         try
         { 
-              //    System.out.println("User entered:" + processType + "   " + osType);
-		 String scriptsubPath="";//cMaven.configValue(processType, osType);
-		 String scriptPath=null;
-		 String userDir=System.getProperty("user.dir");
-		  System.out.println(userDir);
-		  Process p;
+        	 	  Process p=null;
                   
-		//  switch(processType)
-		//  {
-		  //	case "createbar":
-		  		  scriptPath="mqsicreatebar -data "+workspace + " -b " + barPath + " -a ";
+		
+		  		  String scriptPath="mqsicreatebar -data "+workspace;
+		  		  
+		  		  if(barPath!=null)
+		  			   scriptPath=scriptPath + " -b " + barPath;
+		  		  
+		  		  if (compileOnly!=null && compileOnly.equalsIgnoreCase("yes"))
+		  				  scriptPath=scriptPath+" -compileOnly";
+		  		  
+		  		 
+		  		  
 				  if (appName!=null)
-                                     scriptPath=scriptPath+appName;
+                                     scriptPath=scriptPath+" -a "+appName;
 
-                                  if(libName!=null)
-                                   {
-                                     
-                                   }
-                                   
-                                   scriptPath=scriptPath + " -skipWSErrorCheck";
+                  if(libName!=null)
+                	  			scriptPath=scriptPath+" -l "+libName;  
+                  
+                  if (deployAsSource!=null)
+	  			      scriptPath=scriptPath+" -deployAsSource";
+                 //skip error in workspace
+                 if(skipError!=null && skipError.equalsIgnoreCase("yes"))
+                       scriptPath=scriptPath + " -skipWSErrorCheck";
     
-                                  System.out.println("executing script");
+                                  
+                   //adding tracefile if not present
+                   if(traceFilePath!=null)
+                	   scriptPath=scriptPath + " -trace -v " + traceFilePath;
+                   
+                   
+                   System.out.println("executing script ...");
 		  		   p =Runtime.getRuntime().exec(scriptPath);
+		  		   
 		           while(p.isAlive()){}
 		           System.out.println(p.exitValue());
-		     /*      break;
-		  	case "packagebar":
-		  		   scriptPath=userDir+scriptsubPath;
-		  		   p =Runtime.getRuntime().exec(scriptPath);
-		           while(p.isAlive()){}
-		           System.out.println(p.exitValue());
-		           break;
-		  	case "deploybar":
-		  		   p =Runtime.getRuntime().exec("..\\scripts\\windows\\deploybar_script.bat");
-		           while(p.isAlive()){}
-		           System.out.println(p.exitValue());
-		           break;
-		  	default:
-		  		  //throw exception.
-		  }*/
 		   
         }
-        catch ( IOException e )
+        catch ( Exception e )
         {
-             throw new MojoExecutionException("IO Exception", e);
+             throw new MojoExecutionException(" Exception : ", e);
         }
         finally
         {
