@@ -1,0 +1,4 @@
+com\ace\plugin\deploy\ACEDeploy.class
+com\ace\plugin\validate\ACEValidate.class
+com\ace\plugin\compile\ACECompile.class
+com\ace\plugin\packagegrp\ACEPackage.class
