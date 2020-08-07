@@ -83,7 +83,7 @@ public class ACECompile
 		
 		  		  String scriptPath="mqsicreatebar -data "+workspace;
 		  		  
-		  		  if(barPath!=null)
+		  		  if(!barPath.equalsIgnoreCase("Not Valid"))
 		  			   scriptPath=scriptPath + " -b " + barPath;
 		  		  
 		  		  if (compileOnly!=null && compileOnly.equalsIgnoreCase("yes"))
@@ -91,13 +91,13 @@ public class ACECompile
 		  		  
 		  		 
 		  		  
-				  if (appName!=null)
+				  if (!appName.equalsIgnoreCase("Not Valid"))
                                      scriptPath=scriptPath+" -a "+appName;
 
-                  if(libName!=null)
+                  if(!libName.equalsIgnoreCase("Not Valid"))
                 	  			scriptPath=scriptPath+" -l "+libName;  
                   
-                  if (deployAsSource!=null)
+                  if (!deployAsSource.equalsIgnoreCase("Not Valid"))
 	  			      scriptPath=scriptPath+" -deployAsSource";
                  //skip error in workspace
                  if(skipError!=null && skipError.equalsIgnoreCase("yes"))
@@ -105,11 +105,11 @@ public class ACECompile
     
                                   
                    //adding tracefile if not present
-                   if(traceFilePath!=null)
+                   if(!traceFilePath.equalsIgnoreCase("Not Valid"))
                 	   scriptPath=scriptPath + " -trace -v " + traceFilePath;
                    
                    
-                   System.out.println("executing script ...");
+                   System.out.println("executing script ..." + scriptPath);
 		  		   p =Runtime.getRuntime().exec(scriptPath);
 		  		   
 		           while(p.isAlive()){}

@@ -1,4 +1,4 @@
-package com.ace.plugin.deploy;
+package com.ace.plugin.verify;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -23,6 +23,8 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+
+import com.ace.plugin.deploy.ACEDeploy;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
