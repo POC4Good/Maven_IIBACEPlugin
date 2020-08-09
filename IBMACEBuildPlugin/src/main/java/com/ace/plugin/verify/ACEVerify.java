@@ -50,27 +50,71 @@ public class ACEVerify extends AbstractMojo
 	 @Parameter
 	 private String propertyFile;
 	 
+	 @Parameter
+	 private String traceFileName;
+	 
+	 @Parameter
+	 private String applicationName;
+	 
+	 @Parameter
+	 private String libraryName;
+	 
+	 @Parameter
+	 private String outputFile;
+	 
+	 
 	
    public void execute() throws MojoExecutionException
     {
-	ACEDeploy  aceDeploy=new ACEDeploy();
+	ACEVerify  aceVerify=new ACEVerify();
 	try{
+	String stmt = null;
+	String OS = System.getProperty("os.name").toLowerCase();
+	System.out.println("Operating System: "+OS);
 	System.out.println("Bar override started...");
-	String stmt="mqsiapplybaroverride -b "+ barFile ;
-	if(propertyFile!=null)
+	if (OS.startsWith("windows")) {
+		stmt="mqsiapplybaroverride.bat -b "+ barFile ;
+	}
+	else if (OS.startsWith("unix") || OS.startsWith("linux")) {
+		stmt="mqsiapplybaroverride -b "+ barFile ;
+	}
+	if(!applicationName.equalsIgnoreCase("Not Valid")) {
+		stmt=stmt+ " -k "+applicationName;
+	}
+	if(!libraryName.equalsIgnoreCase("Not Valid")) {
+		stmt=stmt+ " -y "+libraryName;
+	}
+	
+	//String stmt="mqsiapplybaroverride.bat -b "+ barFile ;
+	if(!propertyFile.equalsIgnoreCase("Not Valid"))
 	{
 		stmt=stmt + " -p "+propertyFile + " -r";
 	}
-		 Process procExec=Runtime.getRuntime().exec(stmt);
 	
-	 while(procExec.isAlive()){}
+	if(!outputFile.equalsIgnoreCase("Not Valid")) {
+		stmt=stmt+ " -0 "+outputFile;
+	}
+	if(!traceFileName.equalsIgnoreCase("Not Valid"))
+	{
+		stmt=stmt + " -v "+traceFileName;
+	}
+	
+	System.out.println("executing script ..." + stmt);
+	
+	 Process proctoExec=Runtime.getRuntime().exec(stmt);
+		 
+	
+	 while(proctoExec.isAlive()){
+		
+	 }
+	 System.out.println("Process exited with value" + proctoExec.exitValue());
 	
 	}catch(Exception e)
 	{
 		throw new MojoExecutionException("Exception :"+ e);
 	}
 	finally{
-		aceDeploy=null;
+		aceVerify=null;
 	}
    }
    
