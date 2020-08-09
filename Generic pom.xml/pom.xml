@@ -8,6 +8,9 @@
 	<name>Sample.practice</name>
 
 	<properties>
+		<!-- Properties for mqsiprofile -->
+		<mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc>
+		<!-- Properties for mqsicreatebar -->
 		<workspace>Not Valid</workspace>
 		<barPath>Not Valid</barPath>
 		<appName>Not Valid</appName>
@@ -16,12 +19,15 @@
 		<libName>Not Valid</libName>
 		<deployAsSource>Not Valid</deployAsSource>
 		<compileOnly>Not Valid</compileOnly>
+		<!-- Properties for mqsiapplybaroverride -->
 		<barFile>Not Valid</barFile>
 		<propertyFile>Not Valid</propertyFile>
 		<traceFileName>Not Valid</traceFileName>
 		<applicationName>Not Valid</applicationName>
 		<outputFile>Not Valid</outputFile>
 		<libraryName>Not Valid</libraryName>
+		<manualOverrides>Not Validx</manualOverrides>
+		<recursion>Not Valid</recursion>
 	</properties>
 
 	<build>
@@ -35,7 +41,10 @@
 						</configuration> <goals> <goal>validateEnv</goal> </goals> </execution> -->
 					<execution>
 						<configuration>
-							<mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc>
+							<!-- Properties for mqsiprofile -->
+							<mqsiprofileLoc>${mqsiprofileLoc}</mqsiprofileLoc>
+
+							<!-- Properties for mqsicreatebar -->
 							<workspace>${workspace}</workspace>
 							<barPath>${barPath}</barPath>
 							<appName>${appName}</appName>
@@ -44,18 +53,22 @@
 							<libName>${libName}</libName>
 							<deployAsSource>${deployAsSource}</deployAsSource>
 							<compileOnly>${compileOnly}</compileOnly>
+
+							<!-- Properties for mqsiapplybaroverride -->
 							<barFile>${barFile}</barFile>
 							<propertyFile>${propertyFile}</propertyFile>
 							<traceFileName>${traceFileName}</traceFileName>
 							<applicationName>${applicationName}</applicationName>
 							<outputFile>${outputFile}</outputFile>
 							<libraryName>${libraryName}</libraryName>
+							<manualOverrides>${manualOverrides}</manualOverrides>
+							<recursion>${recursion}</recursion>
 						</configuration>
 						<goals>
 							<goal>validateEnv</goal>
 							<goal>createbar</goal>
 							<goal>verify</goal>
-							
+
 						</goals>
 					</execution>
 
