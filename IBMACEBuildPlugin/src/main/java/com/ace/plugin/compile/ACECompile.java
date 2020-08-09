@@ -16,20 +16,11 @@ package com.ace.plugin.compile;
  * limitations under the License.
  */
 
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 /**
@@ -39,90 +30,78 @@ import java.io.IOException;
  * @phase compile
  */
 
-@Mojo (name = "createbar", defaultPhase = LifecyclePhase.COMPILE)
-public class ACECompile
-    extends AbstractMojo
-{
-    /**
-     * Location of the file.
-     * @parameter expression="${project.build.directory}"
-     * @required
-     */
-    @Parameter (required = true)
-    private String workspace;
-    
-    @Parameter
-    private String barPath;
-    
-    @Parameter
-    private String compileOnly;
-    
-    @Parameter
-    private String deployAsSource;
+@Mojo(name = "createbar", defaultPhase = LifecyclePhase.COMPILE)
+public class ACECompile extends AbstractMojo {
+	/**
+	 * Location of the file.
+	 * 
+	 * @parameter expression="${project.build.directory}"
+	 * @required
+	 */
+	@Parameter(required = true)
+	private String workspace;
 
-    @Parameter
-    private String appName;
+	@Parameter
+	private String barPath;
 
-    @Parameter
-    private String libName;
-    
-    @Parameter
-    private String skipError;
-    
-    @Parameter
-    private String traceFilePath;
+	@Parameter
+	private String compileOnly;
 
-    public void execute()
-        throws MojoExecutionException
-    {
-    	ACECompile cMaven=new ACECompile();
-        try
-        { 
-        	 	  Process p=null;
-                  
-		
-		  		  String scriptPath="mqsicreatebar -data "+workspace;
-		  		  
-		  		  if(!barPath.equalsIgnoreCase("Not Valid"))
-		  			   scriptPath=scriptPath + " -b " + barPath;
-		  		  
-		  		  if (compileOnly!=null && compileOnly.equalsIgnoreCase("yes"))
-		  				  scriptPath=scriptPath+" -compileOnly";
-		  		  
-		  		 
-		  		  
-				  if (!appName.equalsIgnoreCase("Not Valid"))
-                                     scriptPath=scriptPath+" -a "+appName;
+	@Parameter
+	private String deployAsSource;
 
-                  if(!libName.equalsIgnoreCase("Not Valid"))
-                	  			scriptPath=scriptPath+" -l "+libName;  
-                  
-                  if (!deployAsSource.equalsIgnoreCase("Not Valid"))
-	  			      scriptPath=scriptPath+" -deployAsSource";
-                 //skip error in workspace
-                 if(skipError!=null && skipError.equalsIgnoreCase("yes"))
-                       scriptPath=scriptPath + " -skipWSErrorCheck";
-    
-                                  
-                   //adding tracefile if not present
-                   if(!traceFilePath.equalsIgnoreCase("Not Valid"))
-                	   scriptPath=scriptPath + " -trace -v " + traceFilePath;
-                   
-                   
-                   System.out.println("executing script ..." + scriptPath);
-		  		   p =Runtime.getRuntime().exec(scriptPath);
-		  		   
-		           while(p.isAlive()){}
-		           System.out.println(p.exitValue());
-		   
-        }
-        catch ( Exception e )
-        {
-             throw new MojoExecutionException(" Exception : ", e);
-        }
-        finally
-        {
-            cMaven=null;
-        }
-    }
+	@Parameter
+	private String appName;
+
+	@Parameter
+	private String libName;
+
+	@Parameter
+	private String skipError;
+
+	@Parameter
+	private String traceFilePath;
+
+	public void execute() throws MojoExecutionException {
+		ACECompile cMaven = new ACECompile();
+		try {
+			Process p = null;
+
+			String scriptPath = "mqsicreatebar -data " + workspace;
+
+			if (!barPath.equalsIgnoreCase("Not Valid"))
+				scriptPath = scriptPath + " -b " + barPath;
+
+			if (compileOnly != null && compileOnly.equalsIgnoreCase("yes"))
+				scriptPath = scriptPath + " -compileOnly";
+
+			if (!appName.equalsIgnoreCase("Not Valid"))
+				scriptPath = scriptPath + " -a " + appName;
+
+			if (!libName.equalsIgnoreCase("Not Valid"))
+				scriptPath = scriptPath + " -l " + libName;
+
+			if (!deployAsSource.equalsIgnoreCase("Not Valid"))
+				scriptPath = scriptPath + " -deployAsSource";
+			// skip error in workspace
+			if (skipError != null && skipError.equalsIgnoreCase("yes"))
+				scriptPath = scriptPath + " -skipWSErrorCheck";
+
+			// adding tracefile if not present
+			if (!traceFilePath.equalsIgnoreCase("Not Valid"))
+				scriptPath = scriptPath + " -trace -v " + traceFilePath;
+
+			System.out.println("executing script ..." + scriptPath);
+			p = Runtime.getRuntime().exec(scriptPath);
+
+			while (p.isAlive()) {
+			}
+			System.out.println(p.exitValue());
+
+		} catch (Exception e) {
+			throw new MojoExecutionException(" Exception : ", e);
+		} finally {
+			cMaven = null;
+		}
+	}
 }
