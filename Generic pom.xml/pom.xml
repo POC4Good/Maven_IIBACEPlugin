@@ -10,6 +10,7 @@
 	<properties>
 		<!-- Properties for mqsiprofile -->
 		<mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc>
+		
 		<!-- Properties for mqsicreatebar -->
 		<workspace>Not Valid</workspace>
 		<barPath>Not Valid</barPath>
@@ -19,6 +20,7 @@
 		<libName>Not Valid</libName>
 		<deployAsSource>Not Valid</deployAsSource>
 		<compileOnly>Not Valid</compileOnly>
+		
 		<!-- Properties for mqsiapplybaroverride -->
 		<barFile>Not Valid</barFile>
 		<propertyFile>Not Valid</propertyFile>
@@ -28,6 +30,19 @@
 		<libraryName>Not Valid</libraryName>
 		<manualOverrides>Not Validx</manualOverrides>
 		<recursion>Not Valid</recursion>
+		
+		<!-- Properties for mqsideploybar -->
+		<integrationNode>Not Valid</integrationNode>
+		<integrationServer>Not Valid</integrationServer>
+		<integrationNodeFileName>Not Valid</integrationNodeFileName>
+		<isIndependentIntegrationServerPresent>Not Valid</isIndependentIntegrationServerPresent>
+		<ipAddress>Not Valid</ipAddress>
+		<port>Not Valid</port>
+		<barFile>Not Valid</barFile>
+		<deployedObjects>Not Valid</deployedObjects>
+		<overeridePreviousDeployment>Not Valid</overeridePreviousDeployment>
+		<traceFileName>Not Valid</traceFileName>
+		<timeoutSecs>Not Valid</timeoutSecs>
 	</properties>
 
 	<build>
@@ -37,8 +52,6 @@
 				<artifactId>IBMACEBuildPlugin</artifactId>
 				<version>1.0-SNAPSHOT</version>
 				<executions>
-					<!-- <execution> <configuration> <mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc> 
-						</configuration> <goals> <goal>validateEnv</goal> </goals> </execution> -->
 					<execution>
 						<configuration>
 							<!-- Properties for mqsiprofile -->
@@ -63,12 +76,26 @@
 							<libraryName>${libraryName}</libraryName>
 							<manualOverrides>${manualOverrides}</manualOverrides>
 							<recursion>${recursion}</recursion>
+							
+							<!-- Properties for mqsideploybar -->
+							<integrationNode>${integrationNode}</integrationNode>
+							<integrationServer>${integrationServer}</integrationServer>
+							<integrationNodeFileName>${integrationNodeFileName}</integrationNodeFileName>
+							<isIndependentIntegrationServerPresent>${isIndependentIntegrationServerPresent}</isIndependentIntegrationServerPresent>
+							<ipAddress>${ipAddress}</ipAddress>
+							<port>${port}</port>
+							<barFile>${barFile}</barFile>
+							<deployedObjects>${deployedObjects}</deployedObjects>
+							<overeridePreviousDeployment>${overeridePreviousDeployment}</overeridePreviousDeployment>
+							<traceFileName>${traceFileName}</traceFileName>
+							<timeoutSecs>${timeoutSecs}</timeoutSecs>
+							
 						</configuration>
 						<goals>
 							<goal>validateEnv</goal>
-							<goal>createbar</goal>
-							<goal>verify</goal>
-
+							<!--<goal>createbar</goal>
+							<goal>verify</goal>-->
+							<goal>deploybar</goal>
 						</goals>
 					</execution>
 

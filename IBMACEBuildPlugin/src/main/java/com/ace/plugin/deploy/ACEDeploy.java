@@ -44,15 +44,38 @@ public class ACEDeploy extends AbstractMojo
 {
 	 @Parameter(required=true)
 	 private String barFile;
+
 	 
 	 @Parameter
-	 private String propertyFile;
+	 private String isIndependentIntegrationServerPresent;
 	 
 	 @Parameter
 	 private String integrationNode;
 	 
 	 @Parameter
+	 private String integrationNodeFileName;
+	 
+	 @Parameter
+	 private String ipAddress;
+	 
+	 @Parameter
+	 private String port;
+	 
+	 @Parameter
 	 private String integrationServer;
+	 
+	 @Parameter
+	 private String deployedObjects;
+	 
+	 @Parameter
+	 private String overeridePreviousDeployment;
+	 
+	 @Parameter
+	 private String traceFileName;
+	 
+	 @Parameter
+	 private String timeoutSecs;
+	 
 	 
    public void execute() throws MojoExecutionException
     {
@@ -62,14 +85,52 @@ public class ACEDeploy extends AbstractMojo
 	String cmd="mqsideploy ";
 	Process deployBar=null;
 	try{
-		//adding integration node 
-		cmd=cmd + integrationNode;
-		//adding integraiton server
-		cmd=cmd + " -e " + 	integrationServer;
+		//If deployment is to be done on Integration server connected to Integration Node then, it is necessary to provide both integration server and node properties.
+		//If deployment is to be done on Independent Integration server then it is necessary to provide only properties related to that integration server.
+		if (isIndependentIntegrationServerPresent != null && !(isIndependentIntegrationServerPresent.equalsIgnoreCase("yes"))) {
+			
+			if (!integrationNode.equalsIgnoreCase("Not Valid")) {
+				cmd=cmd + integrationNode;
+			}
+			if (!integrationServer.equalsIgnoreCase("Not Valid")) {
+				cmd=cmd + " -e " + 	integrationServer;
+			}
+			
+		}
+		// Need to provide value for at least one property between - integrationNodeFileName or ipAddress-port 
+		if(!integrationNodeFileName.equalsIgnoreCase("Not Valid")){
+			cmd=cmd + " -n " + integrationNodeFileName;
+		}
+		// Adding ipAddress and port
+		if (!ipAddress.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -i " + ipAddress;
+		}
+		if (!port.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -p " + port;
+		}
+		//Adding bar file - mandatory property for deployment
+		if (!barFile.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -a " + barFile;
+		}
+		// Adding -m to specify complete deployment
+		if (overeridePreviousDeployment != null && overeridePreviousDeployment.equalsIgnoreCase("yes")) {
+			cmd=cmd + " -m ";
+		}
+		// Adding -d - This parameter describes the set of objects that you want to remove from the integration server
+		if (!deployedObjects.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -d " + deployedObjects;
+		}
+		//This parameter specifies the maximum time in seconds that the command waits for the integration node to complete the request before returning.
+		if (!timeoutSecs.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -w " + timeoutSecs;
+		}
 		
-		//adding bar
-		cmd=cmd + " -a " + barFile;
-		
+		//This parameter sends internal debug trace information about a command to the specified file
+		if (!traceFileName.equalsIgnoreCase("Not Valid")) {
+			cmd=cmd + " -v " + traceFileName;
+		}
+		System.out.println("Executing mqsideploy command: "+cmd);
+		//Executing command
 		deployBar= Runtime.getRuntime().exec(cmd);
         while(deployBar.isAlive()){}	
 	}catch(Exception e)
