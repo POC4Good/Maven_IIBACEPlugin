@@ -69,6 +69,12 @@ public class ACEVerify extends AbstractMojo {
 			} else if (OS.startsWith("unix") || OS.startsWith("linux")) {
 				stmt = "mqsiapplybaroverride -b " + barFile;
 			}
+			
+			//reading NBS property file structure and creating commnd for manual bar override
+			//to do
+			
+			
+			
 			if (!applicationName.equalsIgnoreCase("Not Valid")) {
 				stmt = stmt + " -k " + applicationName;
 			}

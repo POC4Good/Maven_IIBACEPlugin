@@ -39,7 +39,7 @@ import java.io.IOException;
  * @phase deploy
  */
 
-@Mojo (name = "deploybar", defaultPhase = LifecyclePhase.DEPLOY,requiresProject=false )
+@Mojo (name = "deploybar", defaultPhase = LifecyclePhase.INSTALL,requiresProject=false )
 public class ACEDeploy extends AbstractMojo
 {
 	 @Parameter(required=true)
@@ -133,6 +133,7 @@ public class ACEDeploy extends AbstractMojo
 		//Executing command
 		deployBar= Runtime.getRuntime().exec(cmd);
         while(deployBar.isAlive()){}	
+        System.out.println(deployBar.exitValue());
 	}catch(Exception e)
 	{
 		throw new MojoExecutionException("Exception :"+ e);
