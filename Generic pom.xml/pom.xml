@@ -28,8 +28,9 @@
 		<applicationName>Not Valid</applicationName>
 		<outputFile>Not Valid</outputFile>
 		<libraryName>Not Valid</libraryName>
-		<manualOverrides>Not Validx</manualOverrides>
+		<directManualOverrides>Not Valid</directManualOverrides>
 		<recursion>Not Valid</recursion>
+		<manualUsingPropertyfile>Not Valid</manualUsingPropertyfile>
 		
 		<!-- Properties for mqsideploybar -->
 		<integrationNode>Not Valid</integrationNode>
@@ -74,8 +75,9 @@
 							<applicationName>${applicationName}</applicationName>
 							<outputFile>${outputFile}</outputFile>
 							<libraryName>${libraryName}</libraryName>
-							<manualOverrides>${manualOverrides}</manualOverrides>
+							<directManualOverrides>${directManualOverrides}</directManualOverrides>
 							<recursion>${recursion}</recursion>
+							<manualUsingPropertyfile>${manualUsingPropertyfile}</manualUsingPropertyfile>
 							
 							<!-- Properties for mqsideploybar -->
 							<integrationNode>${integrationNode}</integrationNode>
@@ -93,8 +95,8 @@
 						</configuration>
 						<goals>
 							<goal>validateEnv</goal>
-							<!--<goal>createbar</goal>
-							<goal>verify</goal>-->
+							<!--<goal>createbar</goal>-->
+							<goal>verify</goal>
 							<goal>deploybar</goal>
 						</goals>
 					</execution>
