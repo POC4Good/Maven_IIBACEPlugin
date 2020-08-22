@@ -43,7 +43,7 @@ public class ACEVerify extends AbstractMojo {
 	private String barFile;
 
 	@Parameter
-	private String propertyFile;
+	private String overrideFile;
 
 	@Parameter
 	private String manualUsingPropertyfile;
@@ -97,9 +97,9 @@ public class ACEVerify extends AbstractMojo {
 			// override
 			// to do
 
-			if (!propertyFile.equalsIgnoreCase("Not Valid")) {
+			if (!overrideFile.equalsIgnoreCase("Not Valid")) {
 				if (manualUsingPropertyfile != null && manualUsingPropertyfile.equalsIgnoreCase("yes")) {
-					override = manualOverrideUsingProperty(propertyFile, OS);
+					override = manualOverrideUsingProperty(overrideFile, OS);
 					// stmt = stmt + override;
 					String temp = stmt;
 
@@ -133,10 +133,11 @@ public class ACEVerify extends AbstractMojo {
 					}
 					return;
 				}
+				else {
+					stmt = stmt + " -p " + overrideFile;
+				}
 
-			} else {
-				stmt = stmt + " -p " + propertyFile;
-			}
+			} 
 
 			// If manual override is direct provided and without using property file
 			if (!directManualOverrides.equalsIgnoreCase("Not Valid")) {
