@@ -1,5 +1,7 @@
-com\ace\plugin\verify\ACEVerify.class
+com\ace\plugin\packagegrp\ACEPackage$1.class
+com\ace\plugin\compile\ACECompile$1.class
 com\ace\plugin\deploy\ACEDeploy.class
+com\ace\plugin\packagegrp\ACEPackage.class
+com\ace\plugin\verify\ACEVerify.class
 com\ace\plugin\validate\ACEValidate.class
 com\ace\plugin\compile\ACECompile.class
-com\ace\plugin\packagegrp\ACEPackage.class

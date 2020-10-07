@@ -1,15 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>Sample.practice</groupId>
-	<artifactId>Sample</artifactId>
+	<groupId>com.ibm.ace</groupId>
+	<artifactId>IBMACEBar</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Sample.practice</name>
+	<name>IBMACEPlugin.bar</name>
 
 	<properties>
 		<!-- Properties for mqsiprofile -->
 		<mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc>
+		
+		<!-- Properties for Jfrog Artifactory -->
+		<artifactoryUpload>yes</artifactoryUpload>
+		<artifactoryDownload>yes</artifactoryDownload>
+		<artifactoryUserName>admin</artifactoryUserName>
+		<artifactoryPassword>Password</artifactoryPassword>
+		<artifactoryUrl>http://localhost:8081/artifactory/libs-release-local/</artifactoryUrl>
+		<!--<artifactoryBarVersion>IBMACEBar-0.0.1-20200928.165340-6.bar</artifactoryBarVersion>-->
+		<artifactoryPOM>C:\ACEPlugin\bar\IBMACEBar-0.0.1-SNAPSHOT.pom</artifactoryPOM>
+		<artifactoryBarDownloadPath>C:\ACEPlugin\bar\</artifactoryBarDownloadPath>
 		
 		<!-- Properties for mqsicreatebar -->
 		<workspace>Not Valid</workspace>
@@ -20,6 +30,7 @@
 		<libName>Not Valid</libName>
 		<deployAsSource>Not Valid</deployAsSource>
 		<compileOnly>Not Valid</compileOnly>
+		
 		
 		<!-- Properties for mqsiapplybaroverride -->
 		<barFile>Not Valid</barFile>
@@ -45,7 +56,14 @@
 		<traceFileName>Not Valid</traceFileName>
 		<timeoutSecs>Not Valid</timeoutSecs>
 	</properties>
-
+	<distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>NBSP0004BF-TP-releases</name>
+        <url>http://localhost:8081/artifactory/libs-release-local</url>
+    </repository>
+	</distributionManagement>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -57,6 +75,16 @@
 						<configuration>
 							<!-- Properties for mqsiprofile -->
 							<mqsiprofileLoc>${mqsiprofileLoc}</mqsiprofileLoc>
+							
+							<!-- Properties for Jfrog Artifactory -->
+							<artifactoryUpload>${artifactoryUpload}</artifactoryUpload>
+							<artifactoryDownload>${artifactoryDownload}</artifactoryDownload>
+							<artifactoryUserName>${artifactoryUserName}</artifactoryUserName>
+							<artifactoryPassword>${artifactoryPassword}</artifactoryPassword>
+							<artifactoryUrl>${artifactoryUrl}</artifactoryUrl>
+							<artifactoryBarVersion>${artifactoryBarVersion}</artifactoryBarVersion>
+							<artifactoryPOM>${artifactoryPOM}</artifactoryPOM>
+							<artifactoryBarDownloadPath>${artifactoryBarDownloadPath}</artifactoryBarDownloadPath>
 
 							<!-- Properties for mqsicreatebar -->
 							<workspace>${workspace}</workspace>
@@ -67,6 +95,7 @@
 							<libName>${libName}</libName>
 							<deployAsSource>${deployAsSource}</deployAsSource>
 							<compileOnly>${compileOnly}</compileOnly>
+							
 
 							<!-- Properties for mqsiapplybaroverride -->
 							<barFile>${barFile}</barFile>
@@ -95,9 +124,11 @@
 						</configuration>
 						<goals>
 							<goal>validateEnv</goal>
-							<!--<goal>createbar</goal>-->
-							<goal>verify</goal>
-							<goal>deploybar</goal>
+							<!--<goal>packagebar</goal>-->
+							<goal>createbar</goal>
+							
+							<!--<goal>verify</goal>-->
+							<!--<goal>deploybar</goal>-->
 						</goals>
 					</execution>
 

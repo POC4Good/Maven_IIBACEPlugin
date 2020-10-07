@@ -39,7 +39,7 @@ import java.io.IOException;
  * @phase deploy
  */
 
-@Mojo (name = "deploybar", defaultPhase = LifecyclePhase.INSTALL,requiresProject=false )
+@Mojo (name = "deploybar", defaultPhase = LifecyclePhase.DEPLOY,requiresProject=false )
 public class ACEDeploy extends AbstractMojo
 {
 	 @Parameter(required=true)
@@ -75,6 +75,9 @@ public class ACEDeploy extends AbstractMojo
 	 
 	 @Parameter
 	 private String timeoutSecs;
+	 
+	 
+		
 	 
 	 
    public void execute() throws MojoExecutionException
