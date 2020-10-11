@@ -1,6 +1,8 @@
 com\ace\plugin\packagegrp\ACEPackage$1.class
-com\ace\plugin\compile\ACECompile$1.class
 com\ace\plugin\deploy\ACEDeploy.class
+com\ace\plugin\install\ACEInstall.class
+com\ace\plugin\override\ACEBaroverride.class
+com\ace\plugin\install\ACEInstall$1.class
 com\ace\plugin\packagegrp\ACEPackage.class
 com\ace\plugin\verify\ACEVerify.class
 com\ace\plugin\validate\ACEValidate.class

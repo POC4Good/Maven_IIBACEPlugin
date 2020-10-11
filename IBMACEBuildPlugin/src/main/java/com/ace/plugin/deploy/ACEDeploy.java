@@ -39,7 +39,7 @@ import java.io.IOException;
  * @phase deploy
  */
 
-@Mojo (name = "deploybar", defaultPhase = LifecyclePhase.DEPLOY,requiresProject=false )
+@Mojo (name = "deploybar",requiresProject=false )
 public class ACEDeploy extends AbstractMojo
 {
 	 @Parameter(required=true)

@@ -440,3 +440,16 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -showlocation -product
 
 !ENTRY org.eclipse.emf.ecore 2 0 2020-09-13 21:55:27.402
 !MESSAGE Both 'com.ibm.etools.javaee.core' and 'com.ibm.etools.mft.service.model' register an extension parser for 'application'
+!SESSION 2020-10-11 12:19:06.731 -----------------------------------------------
+eclipse.buildId=4.2.2.M20140918-1444
+java.fullversion=8.0.5.15 - pwa6480sr5fp15-20180502_01(SR5 FP15)
+JRE 1.8.0 Windows 10 amd64-64 Compressed References 20180425_385365 (JIT enabled, AOT enabled)
+OpenJ9   - a7ffbfe
+OMR      - a531219
+IBM      - 59ef3dc
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -showlocation -product com.ibm.etools.msgbroker.tooling.ide -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar Valid -b C:\ACEPlugin\bar\TestApp.bar
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -showlocation -product com.ibm.etools.msgbroker.tooling.ide -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar -data Not Valid -b C:\ACEPlugin\bar\TestApp.bar
+
+!ENTRY org.eclipse.emf.ecore 2 0 2020-10-11 12:19:08.932
+!MESSAGE Both 'com.ibm.etools.javaee.core' and 'com.ibm.etools.mft.service.model' register an extension parser for 'application'

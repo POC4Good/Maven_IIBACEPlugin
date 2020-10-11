@@ -12,14 +12,16 @@
 		<mqsiprofileLoc>"C:\Program Files\IBM\ACE\11.0.0.1\server\bin\mqsiprofile.cmd"</mqsiprofileLoc>
 		
 		<!-- Properties for Jfrog Artifactory -->
-		<artifactoryUpload>yes</artifactoryUpload>
-		<artifactoryDownload>yes</artifactoryDownload>
+		<artifactoryUpload>Not Valid</artifactoryUpload>
+		<artifactoryDownload>Not Valid</artifactoryDownload>
 		<artifactoryUserName>admin</artifactoryUserName>
-		<artifactoryPassword>Password</artifactoryPassword>
+		<artifactoryPassword>admin</artifactoryPassword>
 		<artifactoryUrl>http://localhost:8081/artifactory/libs-release-local/</artifactoryUrl>
-		<!--<artifactoryBarVersion>IBMACEBar-0.0.1-20200928.165340-6.bar</artifactoryBarVersion>-->
+		<artifactoryBarVersion>Not Valid</artifactoryBarVersion>
 		<artifactoryPOM>C:\ACEPlugin\bar\IBMACEBar-0.0.1-SNAPSHOT.pom</artifactoryPOM>
-		<artifactoryBarDownloadPath>C:\ACEPlugin\bar\</artifactoryBarDownloadPath>
+		<artifactoryBarDownloadPath>Not Valid</artifactoryBarDownloadPath>
+		
+		
 		
 		<!-- Properties for mqsicreatebar -->
 		<workspace>Not Valid</workspace>
@@ -34,7 +36,7 @@
 		
 		<!-- Properties for mqsiapplybaroverride -->
 		<barFile>Not Valid</barFile>
-		<propertyFile>Not Valid</propertyFile>
+		<overrideFile>Not Valid</overrideFile>
 		<traceFileName>Not Valid</traceFileName>
 		<applicationName>Not Valid</applicationName>
 		<outputFile>Not Valid</outputFile>
@@ -55,6 +57,20 @@
 		<overeridePreviousDeployment>Not Valid</overeridePreviousDeployment>
 		<traceFileName>Not Valid</traceFileName>
 		<timeoutSecs>Not Valid</timeoutSecs>
+		
+		<!-- Properties for install -->
+		<barPath>Not Valid</barPath>
+		<localm2Dir>Not Valid</localm2Dir>
+		
+		
+		<!-- Properties for mqsireadbar -->
+		<barFile>Not Valid</barFile>
+		<traceFileName>Not Valid</traceFileName>
+		<recursion>Not Valid</recursion>
+		<overrideFile>Not Valid</overrideFile>
+		<readBarOutputFile>Not Valid</readBarOutputFile>
+		<finalCompareOutputFile>Not Valid</finalCompareOutputFile>
+		
 	</properties>
 	<distributionManagement>
     <repository>
@@ -72,6 +88,7 @@
 				<version>1.0-SNAPSHOT</version>
 				<executions>
 					<execution>
+						 <id>ACEPluginExecution</id>
 						<configuration>
 							<!-- Properties for mqsiprofile -->
 							<mqsiprofileLoc>${mqsiprofileLoc}</mqsiprofileLoc>
@@ -99,7 +116,7 @@
 
 							<!-- Properties for mqsiapplybaroverride -->
 							<barFile>${barFile}</barFile>
-							<propertyFile>${propertyFile}</propertyFile>
+							<overrideFile>${overrideFile}</overrideFile>
 							<traceFileName>${traceFileName}</traceFileName>
 							<applicationName>${applicationName}</applicationName>
 							<outputFile>${outputFile}</outputFile>
@@ -121,14 +138,27 @@
 							<traceFileName>${traceFileName}</traceFileName>
 							<timeoutSecs>${timeoutSecs}</timeoutSecs>
 							
+							<!-- Properties for install -->
+							<barPath>${barPath}</barPath>
+							<localm2Dir>${localm2Dir}</localm2Dir>
+		
+							<!-- Properties for mqsireadbar -->
+							<barFile>${barFile}</barFile>
+							<traceFileName>${traceFileName}</traceFileName>
+							<recursion>${recursion}</recursion>
+							<overrideFile>${overrideFile}</overrideFile>
+							<readBarOutputFile>${readBarOutputFile}</readBarOutputFile>
+							<finalCompareOutputFile>${finalCompareOutputFile}</finalCompareOutputFile>
+							
 						</configuration>
 						<goals>
 							<goal>validateEnv</goal>
 							<!--<goal>packagebar</goal>-->
-							<goal>createbar</goal>
-							
+							<!--<goal>createbar</goal>-->
+							<!--<goal>installbar</goal>-->
 							<!--<goal>verify</goal>-->
 							<!--<goal>deploybar</goal>-->
+							<goal>baroverride</goal>
 						</goals>
 					</execution>
 

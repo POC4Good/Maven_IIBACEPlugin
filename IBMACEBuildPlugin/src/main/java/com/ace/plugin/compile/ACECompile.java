@@ -47,7 +47,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @phase compile
  */
 
-@Mojo(name = "createbar", defaultPhase = LifecyclePhase.INSTALL)
+@Mojo(name = "createbar", defaultPhase = LifecyclePhase.COMPILE)
 public class ACECompile extends AbstractMojo {
 	/**
 	 * Location of the file.
@@ -79,20 +79,6 @@ public class ACECompile extends AbstractMojo {
 	@Parameter
 	private String traceFilePath;
 	
-	@Parameter
-	private String artifactoryUpload;
-	
-	@Parameter
-	private String artifactoryUserName;
-
-	@Parameter
-	private String artifactoryPassword;
-
-	@Parameter
-	private String artifactoryUrl;
-	
-	@Parameter
-	private String artifactoryPOM;
 	
 
 	public void execute() throws MojoExecutionException {
@@ -140,85 +126,8 @@ public class ACECompile extends AbstractMojo {
 			while (p.isAlive()) {
 			}
 			System.out.println(p.exitValue());
-			if (p.exitValue() == 0 && artifactoryUpload.equalsIgnoreCase("yes")) {
-				HttpURLConnection conn;
-				OutputStream out;
-				String output; 
-				BufferedReader br;
-				MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.STRICT);
-				
-				//Setting authentication credentials for JFrog artifactory
-				Authenticator.setDefault (new Authenticator() {
-				    protected PasswordAuthentication getPasswordAuthentication() {
-				        return new PasswordAuthentication (artifactoryUserName, artifactoryPassword.toCharArray());
-				    }
-				});
-				//Creating artifactory url to upload pom file. 
-				//<groupId>com.ibm.ace</groupId>,
-				//<artifactId>IBMACEBar</artifactId>,
-				//<version>0.0.1-SNAPSHOT</version>
-				
-				String artifactoryPomUrl = artifactoryUrl+"com/ibm/ace/IBMACEBar/0.0.1-SNAPSHOT/IBMACEBar-0.0.1-SNAPSHOT.pom";
-				URL pomUrl = new URL(artifactoryPomUrl);
-				conn = (HttpURLConnection) pomUrl.openConnection();
-				conn.setDoOutput(true);
-				conn.setRequestMethod("PUT");
-				String pomName = artifactoryPOM;
-				FileBody filePom = new FileBody(new File(pomName));
-				multipartEntity.addPart("file", filePom);
-				conn.setRequestProperty("Content-Type", multipartEntity.getContentType().getValue());
-				out = conn.getOutputStream();
-				try {
-				    multipartEntity.writeTo(out);
-				} finally {
-				    
-				}
-				//printing output from artifactory pom upload
-				br = new BufferedReader(new InputStreamReader(
-						  (conn.getInputStream())));  
-				System.out.println("Output from Server .... \n"); 
-				while((output = br.readLine()) != null) 
-				{ System.out.println(output); 
-				}
-				//closing output stream and disconnecting connection
-				out.close();
-				conn.disconnect();
-						
-				//Creating artifactory url to upload bar file. 
-				//<groupId>com.ibm.ace</groupId>,
-				//<artifactId>IBMACEBar</artifactId>,
-				//<version>0.0.1-SNAPSHOT</version>
-				
-				String artifactoryBarUrl = artifactoryUrl+"com/ibm/ace/IBMACEBar/0.0.1-SNAPSHOT/IBMACEBar-0.0.1-SNAPSHOT.bar";
-				URL url = new URL(artifactoryBarUrl);
-				conn = (HttpURLConnection) url.openConnection();
-				conn.setDoOutput(true);
-				conn.setRequestMethod("PUT");
-				String fileName = barPath;
-				FileBody fileBody = new FileBody(new File(fileName));
-				multipartEntity.addPart("file", fileBody);
-
-				conn.setRequestProperty("Content-Type", multipartEntity.getContentType().getValue());
-				out = conn.getOutputStream();
-				try {
-				    multipartEntity.writeTo(out);
-				} finally {
-				    
-				}
-				
-				//printing output from artifactory bar upload
-				
-				br = new BufferedReader(new InputStreamReader(
-				(conn.getInputStream()))); 
-				System.out.println("Output from Server .... \n"); 
-				while((output = br.readLine()) != null) 
-				{ System.out.println(output); 
-				}
-				
-				//closing output stream and disconnecting connection
-				out.close();
-				conn.disconnect();
-			}
+			
+			
 
 		} catch (Exception e) {
 			throw new MojoExecutionException(" Exception : ", e);

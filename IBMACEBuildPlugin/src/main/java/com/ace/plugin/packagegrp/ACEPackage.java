@@ -55,7 +55,6 @@ import java.io.IOException;
 
 @Mojo(name = "packagebar", defaultPhase = LifecyclePhase.PACKAGE, requiresProject = false)
 public class ACEPackage extends AbstractMojo {
-	private static final int BUFFER_SIZE = 4096;
 
 	/*
 	 * @Parameter private String m2RepoDir;
@@ -79,6 +78,9 @@ public class ACEPackage extends AbstractMojo {
 	 * @Parameter private String traceFilePath;
 	 */
 	@Parameter
+	private String artifactoryDownload;
+
+	@Parameter
 	private String artifactoryUserName;
 
 	@Parameter
@@ -89,7 +91,7 @@ public class ACEPackage extends AbstractMojo {
 
 	@Parameter
 	private String artifactoryBarDownloadPath;
-	
+
 	@Parameter
 	private String artifactoryBarVersion;
 
@@ -123,70 +125,72 @@ public class ACEPackage extends AbstractMojo {
 			 */
 			// while(procExec.isAlive()){}
 
-			HttpURLConnection conn;
-			OutputStream out;
-			String output;
-			BufferedReader br;
+			if (artifactoryDownload.equalsIgnoreCase("yes")) {
 
-			//Setting authentication credentials for JFrog artifactory
-			Authenticator.setDefault(new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(artifactoryUserName,artifactoryPassword.toCharArray());
-				}
-			});
+				HttpURLConnection conn;
+				OutputStream out;
+				String output;
+				BufferedReader br;
 
-			//Creating artifactory url to upload pom file. 
-			//<groupId>com.ibm.ace</groupId>,
-			//<artifactId>IBMACEBar</artifactId>,
-			//<version>0.0.1-SNAPSHOT</version>
-			String artifactoryBarUrl;
-			if (artifactoryBarVersion != null) {
-				artifactoryBarUrl= artifactoryUrl+artifactoryBarVersion;
-			}else {
-			artifactoryBarUrl = artifactoryUrl+"com/ibm/ace/IBMACEBar/0.0.1-SNAPSHOT/IBMACEBar-0.0.1-SNAPSHOT.bar";
-			}
-			URL url = new URL(artifactoryBarUrl);
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			// conn.setDoInput(true);
-			conn.setDoOutput(true);
-			int responseCode = conn.getResponseCode();
-
-			
-			// Check for success response and save bar file received in response.
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				String fileName = "";
-				String disposition = conn.getHeaderField("Content-Disposition");
-				String contentType = conn.getContentType();
-				int contentLength = conn.getContentLength();
-				System.out.println("Content-Type = " + contentType);
-				System.out.println("Content-Disposition = " + disposition);
-				System.out.println("Content-Length = " + contentLength);
-				
-				if (disposition != null) {
-					// extracts file name from header field
-					int index = disposition.indexOf("filename=");
-					String temp = disposition.substring(index);
-					System.out.println("temp string" + temp);
-					if (index > 0) {
-						fileName = temp.substring(10, temp.indexOf(";") - 1);
+				// Setting authentication credentials for JFrog artifactory
+				Authenticator.setDefault(new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(artifactoryUserName, artifactoryPassword.toCharArray());
 					}
+				});
 
-					System.out.println("fileName = " + fileName);
-					InputStream inputStream = conn.getInputStream();
-					String saveFilePath = artifactoryBarDownloadPath + File.separator + fileName;
+				// Creating artifactory url to upload pom file.
+				// <groupId>com.ibm.ace</groupId>,
+				// <artifactId>IBMACEBar</artifactId>,
+				// <version>0.0.1-SNAPSHOT</version>
+				String artifactoryBarUrl;
+				if (!artifactoryBarVersion.equalsIgnoreCase("Not Valid")) {
+					artifactoryBarUrl = artifactoryUrl + "com/ibm/ace/IBMACEBar/0.0.1-SNAPSHOT/" +artifactoryBarVersion;
+				} else {
+					artifactoryBarUrl = artifactoryUrl
+							+ "com/ibm/ace/IBMACEBar/0.0.1-SNAPSHOT/IBMACEBar-0.0.1-SNAPSHOT.bar";
+				}
+				URL url = new URL(artifactoryBarUrl);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				// conn.setDoInput(true);
+				conn.setDoOutput(true);
+				int responseCode = conn.getResponseCode();
 
-					// opens an output stream to save into bar file
-					ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
-					FileOutputStream outputStream = new FileOutputStream(saveFilePath);
-					outputStream.getChannel()
-					  .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+				// Check for success response and save bar file received in response.
+				if (responseCode == HttpURLConnection.HTTP_OK) {
+					String fileName = "";
+					String disposition = conn.getHeaderField("Content-Disposition");
+					String contentType = conn.getContentType();
+					int contentLength = conn.getContentLength();
+					System.out.println("Content-Type = " + contentType);
+					System.out.println("Content-Disposition = " + disposition);
+					System.out.println("Content-Length = " + contentLength);
 
-					//Closing connections
-					outputStream.close();
-					inputStream.close();
-					conn.disconnect();
-					
+					if (disposition != null) {
+						// extracts file name from header field
+						int index = disposition.indexOf("filename=");
+						String temp = disposition.substring(index);
+						System.out.println("temp string" + temp);
+						if (index > 0) {
+							fileName = temp.substring(10, temp.indexOf(";") - 1);
+						}
+
+						System.out.println("fileName = " + fileName);
+						InputStream inputStream = conn.getInputStream();
+						String saveFilePath = artifactoryBarDownloadPath + File.separator + fileName;
+
+						// opens an output stream to save into bar file
+						ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
+						FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+						outputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
+						// Closing connections
+						outputStream.close();
+						inputStream.close();
+						conn.disconnect();
+
+					}
 				}
 			}
 		} catch (Exception e) {
